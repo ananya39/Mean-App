@@ -9,42 +9,61 @@ This project demonstrates a **containerization** and **CI/CD pipeline** for a ME
 
 ## Backend
 
+```
 docker build -t <your-dockerhub-username>/backend:latest ./backend
 docker push <your-dockerhub-username>/backend:latest
+```
 
-# Frontend
+## Frontend
+
+```
 
 docker build -t <your-dockerhub-username>/frontend:latest ./frontend
 docker push <your-dockerhub-username>/frontend:latest
-EC2 Setup
+```
+
+## EC2 Setup
+
 Launch an Ubuntu EC2 instance.
 
+```
 ## Install Docker and Docker Compose:
+```
 
 sudo apt update
 sudo apt install docker.io docker-compose -y
 sudo systemctl enable docker
 sudo systemctl start docker
 
+```
+
 ## Add your user to the Docker group:
+```
 
 sudo usermod -aG docker ubuntu
+
+```
 Move your app folder to the home directory and fix ownership:
+```
 
 sudo mv /root/mean-app /home/ubuntu/
 sudo chown -R ubuntu:ubuntu /home/ubuntu/mean-app
 
+```
 ## Deploy the app using Docker Compose:
+```
 
+```
 cd ~/mean-app
 docker-compose pull
 docker-compose down
 docker-compose up -d
+```
 
-![Tutorials Added](images/image-1.png)
-![Tutorials list](images/image-2.png)
-![Edit Tutorial](images/image-3.png)
-![Tutorial Submitted](images/image.png)
+![alt text](images/image-2.png)
+![Tutorials list](images/image.png)
+
+![Tutorial Submitted](images/img-new.png)
 
 ```
 
