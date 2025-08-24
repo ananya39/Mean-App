@@ -2,61 +2,50 @@
 
 This project demonstrates a **containerization** and **CI/CD pipeline** for a MEAN stack application (MongoDB, Express, Angular, Node.js) deployed on an AWS EC2 instance using Docker and GitHub Actions.
 
----
-
-## Project Structure
-
-mean-app/
-├── backend/ # Node.js + Express backend
-├── frontend/ # Angular frontend
-├── docker-compose.yml # Docker Compose file
-└── .github/
-└── workflows/
-└── cicd.yml # GitHub Actions CI/CD workflow
-
----
-
----
-
 ## Containerization & Deployment
 
 1. **Create Dockerfiles** for both the frontend and backend.
 2. **Build and push Docker images** to your Docker Hub account:
 
-````bash
-# Backend
+## Backend
+
 docker build -t <your-dockerhub-username>/backend:latest ./backend
 docker push <your-dockerhub-username>/backend:latest
 
 # Frontend
+
 docker build -t <your-dockerhub-username>/frontend:latest ./frontend
 docker push <your-dockerhub-username>/frontend:latest
+EC2 Setup
+Launch an Ubuntu EC2 instance.
 
-## EC2 Setup
+## Install Docker and Docker Compose:
 
-1. Launch an Ubuntu EC2 instance.
-2. Install Docker and Docker Compose:
-
-```bash
 sudo apt update
 sudo apt install docker.io docker-compose -y
 sudo systemctl enable docker
 sudo systemctl start docker
 
-
-
 ## Add your user to the Docker group:
-sudo usermod -aG docker ubuntu
 
-## Move your app folder to the home directory and fix ownership:
+sudo usermod -aG docker ubuntu
+Move your app folder to the home directory and fix ownership:
+
 sudo mv /root/mean-app /home/ubuntu/
 sudo chown -R ubuntu:ubuntu /home/ubuntu/mean-app
+
+## Deploy the app using Docker Compose:
+
 cd ~/mean-app
 docker-compose pull
 docker-compose down
 docker-compose up -d
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
-````
+
+![Tutorials Added](images/image-1.png)
+![Tutorials list](images/image-2.png)
+![Edit Tutorial](images/image-3.png)
+![Tutorial Submitted](images/image.png)
+
+```
+
+```
