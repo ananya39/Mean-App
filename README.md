@@ -1,27 +1,62 @@
-In this DevOps task, you need to build and deploy a full-stack CRUD application using the MEAN stack (MongoDB, Express, Angular 15, and Node.js). The backend will be developed with Node.js and Express to provide REST APIs, connecting to a MongoDB database. The frontend will be an Angular application utilizing HTTPClient for communication.  
+# MEAN App CI/CD Deployment on EC2 using Docker and GitHub Actions
 
-The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
+This project demonstrates a **containerization** and **CI/CD pipeline** for a MEAN stack application (MongoDB, Express, Angular, Node.js) deployed on an AWS EC2 instance using Docker and GitHub Actions.
 
-## Project setup
+---
 
-### Node.js Server
+## Project Structure
 
-cd backend
+mean-app/
+├── backend/ # Node.js + Express backend
+├── frontend/ # Angular frontend
+├── docker-compose.yml # Docker Compose file
+└── .github/
+└── workflows/
+└── cicd.yml # GitHub Actions CI/CD workflow
 
-npm install
+---
 
-You can update the MongoDB credentials by modifying the `db.config.js` file located in `app/config/`.
+---
 
-Run `node server.js`
+## Containerization & Deployment
 
-### Angular Client
+1. **Create Dockerfiles** for both the frontend and backend.
+2. **Build and push Docker images** to your Docker Hub account:
 
-cd frontend
+````bash
+# Backend
+docker build -t <your-dockerhub-username>/backend:latest ./backend
+docker push <your-dockerhub-username>/backend:latest
 
-npm install
+# Frontend
+docker build -t <your-dockerhub-username>/frontend:latest ./frontend
+docker push <your-dockerhub-username>/frontend:latest
 
-Run `ng serve --port 8081`
+## EC2 Setup
 
-You can modify the `src/app/services/tutorial.service.ts` file to adjust how the frontend interacts with the backend.
+1. Launch an Ubuntu EC2 instance.
+2. Install Docker and Docker Compose:
 
-Navigate to `http://localhost:8081/`
+```bash
+sudo apt update
+sudo apt install docker.io docker-compose -y
+sudo systemctl enable docker
+sudo systemctl start docker
+
+
+
+## Add your user to the Docker group:
+sudo usermod -aG docker ubuntu
+
+## Move your app folder to the home directory and fix ownership:
+sudo mv /root/mean-app /home/ubuntu/
+sudo chown -R ubuntu:ubuntu /home/ubuntu/mean-app
+cd ~/mean-app
+docker-compose pull
+docker-compose down
+docker-compose up -d
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+````
