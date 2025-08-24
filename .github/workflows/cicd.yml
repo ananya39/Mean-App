@@ -21,21 +21,19 @@ jobs:
 
       - name: Build and push backend Docker image
         run: |
-          docker build -t ananya117/backend:latest ./backend
-          docker push ananya117/backend:latest
+          docker build -t DOCKER_USERNAME/backend:latest ./backend
+          docker push DOCKER_USERNAME/backend:latest
 
       - name: Build and push frontend Docker image
         run: |
-          docker build -t ananya117/frontend:latest ./frontend
-          docker push ananya117/frontend:latest
+          docker build -t DOCKER_USERNAME/frontend:latest ./frontend
+          docker push DOCKER_USERNAME/frontend:latest
 
-      - name: SSH to EC2 and deploy
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd ~/mean-app
+      - name: Deploy Docker Containers on EC2
+        run: |
+          ssh -i ${{ secrets.EC2_SSH_KEY }} ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            cd ~/mean-app   
             docker-compose pull
+            docker-compose down
             docker-compose up -d
+          EOF
